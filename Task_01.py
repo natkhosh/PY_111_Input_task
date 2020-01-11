@@ -12,7 +12,7 @@ def add_del_book(file: str, author: str, title: str, year: str, mode: str):
     :param author: автор книги
     :param title: название книги
     :param year: год издания
-    :param mode: команда (добавить, удалить)
+    :param mode: команда (add - добавить, del - удалить)
     """
     book = {
         "author": author,
@@ -21,7 +21,12 @@ def add_del_book(file: str, author: str, title: str, year: str, mode: str):
     }
 
     try:
-        data = json.load(open(file))
+        data = json.load(open(file, encoding="utf-8"))
+    except FileNotFoundError:
+        data = []
+        if mode == 'add':
+            data.append(book)
+    else:
         book_exist = False
         for books in data:
             if str(books["author"]) == author and str(books["title"]) == title and str(books["year"]) == year:
@@ -30,31 +35,27 @@ def add_del_book(file: str, author: str, title: str, year: str, mode: str):
                 break
             else:
                 book_exist = False
+
         if book_exist is not True:
             if mode == 'add':
                 data.append(book)
-
         elif book_exist is True and mode == 'del':
-            data.remove(book)
+             data.remove(book)
 
-    except Exception:
-        data = []
-        if mode == 'add':
-            data.append(book)
-
-    with open(file, 'w') as f:
+    with open(file, 'w', encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 
 def search_book(file, text):
     books_find = []
     try:
-        data = json.load(open(file))
+        data = json.load(open(file, encoding="utf-8"))
+    except FileNotFoundError:
+        print("Файл библиотеки не создан.")
+    else:
         for books in data:
             if (str(books["author"]) == text) or (str(books["title"]) == text) or (str(books["year"]) == text):
                 books_find.append(books)
-    except:
-        print("No library")
     return books_find
 
 
@@ -65,11 +66,8 @@ def edit_book(file, author, title, year, new_author, new_title, new_year):
 
 if __name__ == '__main__':
 
-    add_del_book("lib_new.txt", "Test001", "Title001 test", "2001", 'del')
-    # add_del("library.txt", "Test001", "Title001 test", "2001", 'add')
-    # add_del("library.txt", "Test002", "Title002 test", "2002", 'add')
-    # add_del("library.txt", "Test003", "Title003 test", "2003", 'add')
-    # add_del("library.txt", "Test001", "Title001 test", "2001", 'add')
+    add_del_book("library__.txt", "ПАМффф", "Роковые яйца", "1924", 'add')
+
 
     # edit_book("library.txt", "Test002", "Title002 test", "2002", "Test003!!!", "Title003 test", "2003")
 
