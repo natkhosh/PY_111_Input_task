@@ -1,6 +1,19 @@
+"""
+Модуль реализует библиотеку для хранения данных книг и поиск по каталогу.
+"""
+
 import json
 
-def add_del(file, author, title, year, todo):
+
+def add_del_book(file: str, author: str, title: str, year: str, mode: str):
+    """
+    Функция добавления книги в библиотеку и удаления книги из библиотеки
+    :param file: путь к файлу библиотки
+    :param author: автор книги
+    :param title: название книги
+    :param year: год издания
+    :param mode: команда (добавить, удалить)
+    """
     book = {
         "author": author,
         "title": title,
@@ -17,14 +30,16 @@ def add_del(file, author, title, year, todo):
                 break
             else:
                 book_exist = False
-        if book_exist != True:
-            if todo == 'add':
+        if book_exist is not True:
+            if mode == 'add':
                 data.append(book)
-        elif book_exist == True and todo == 'del':
+
+        elif book_exist is True and mode == 'del':
             data.remove(book)
-    except:
+
+    except Exception:
         data = []
-        if todo == 'add':
+        if mode == 'add':
             data.append(book)
 
     with open(file, 'w') as f:
@@ -44,13 +59,13 @@ def search_book(file, text):
 
 
 def edit_book(file, author, title, year, new_author, new_title, new_year):
-    add_del(file, author, title, year, 'del')
-    add_del(file, new_author, new_title, new_year, 'add')
+    add_del_book(file, author, title, year, 'del')
+    add_del_book(file, new_author, new_title, new_year, 'add')
 
 
 if __name__ == '__main__':
 
-    # add_del("library.txt", "Test001", "Title001 test", "2001", 'add')
+    add_del_book("lib_new.txt", "Test001", "Title001 test", "2001", 'del')
     # add_del("library.txt", "Test001", "Title001 test", "2001", 'add')
     # add_del("library.txt", "Test002", "Title002 test", "2002", 'add')
     # add_del("library.txt", "Test003", "Title003 test", "2003", 'add')
@@ -59,6 +74,6 @@ if __name__ == '__main__':
     # edit_book("library.txt", "Test002", "Title002 test", "2002", "Test003!!!", "Title003 test", "2003")
 
 
-    print(search_book("library.txt", "2003"))
+    # print(search_book("library.txt", "2003"))
 
 
