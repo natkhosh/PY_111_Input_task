@@ -34,7 +34,8 @@ def add_del_book(file: str, author: str, title: str, year: str, mode: str):
         book_exist = False
         for books in data:
             if str(books["Автор"]) == author and str(books["Название"]) == title and str(books["Год издания"]) == year:
-                print("Такая книга уже есть в библиотеке.")
+                if mode == 'add':
+                    print("Такая книга уже есть в библиотеке.")
                 book_exist = True
                 break
             else:
@@ -86,6 +87,7 @@ def edit_book(file: str, author: str, title: str, year: str, new_author: str, ne
     :param new_author: автор книги (обновленное значение)
     :param new_title: название книги (обновленное значение)
     :param new_year: год издания (обновленное значение)
+    :return: True/False выполнена или не выполнена функция
     """
     if add_del_book(file, author, title, year, 'del'):
         if add_del_book(file, new_author, new_title, new_year, 'add'):
@@ -101,7 +103,7 @@ if __name__ == '__main__':
 
     # add_del_book("library_02.txt", "Анна Ахматова", "Реквием", "1963", 'add')
 
-    if edit_book("library_02.txt", "Анна Ахматова", "Реквием", "1963", "Анна Ахматова", "Белая стая", "1922"):
+    if edit_book("library_02.txt", "Анна Ахматова", "Белая стая", "1922", "Анна Ахматова", "Реквием", "1963"):
         print('Книга отредактирована')
     else:
         print('Книга не отредактирована')
