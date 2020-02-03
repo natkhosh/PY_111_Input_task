@@ -98,17 +98,68 @@ def edit_book(file: str, author: str, title: str, year: str, new_author: str, ne
         return False
 
 
+def main():
+    """
+    Функция реализует интерфейс взаимодействия с пользователем
+    """
+    print("Использовать библиотеку по умолчанию или создать новую?",
+          '\n\t- yes (библиотка поумолчанию)', '\n\t- no (создать новую библиотеку)')
+    file_lib = str(input("> "))
+    if file_lib == 'yes' or file_lib == 'no':
+        if file_lib == 'yes':
+            file = "library_02.txt"
+        else:
+            file = str(input('Введите путь библиотеки: >  '))
+    else:
+        print('Некорректный ввод.', '\n')
+
+    print('\n', 'Список допустимых команд:', '\n\t- add  --> Добавить книгу в библиотеку',
+          '\n\t- del  --> Удалить книгу из библиотеку', '\n\t- edit --> Редактировать книгу',
+          '\n\t- find --> Поиск книги', '\n\t- exit --> Выход', '\n')
+
+    while True:
+        command = str(input("Введите команду: > "))
+
+        if command == 'add' or command == 'del' or command == 'edit' or command == 'find' or command == 'exit':
+            if command == 'add':
+                add_author = str(input('Введите автора книги: >  '))
+                add_book_name = str(input('Введите название книги: >  '))
+                add_book_year = str(input('Введите год издания книги: >  '))
+                if add_del_book(file, add_author, add_book_name, add_book_year, 'add'):
+                    print('> Книга добавлена', '\n')
+                else:
+                    print('> Книга не добавлена', '\n')
+
+            if command == 'del':
+                del_author = str(input('Введите автора книги: >  '))
+                del_book_name = str(input('Введите название книги: >  '))
+                del_book_year = str(input('Введите год издания книги: >  '))
+                if add_del_book(file, del_author, del_book_name, del_book_year, 'del'):
+                    print('> Книга удалена', '\n')
+                else:
+                    print('> Книга не удалена', '\n')
+
+            if command == 'edit':
+                add_author = str(input('Введите автора книги: >  '))
+                add_book_name = str(input('Введите название книги: >  '))
+                add_book_year = str(input('Введите год издания книги: >  '))
+                add_author_new = str(input('Введите нового автора книги: >  '))
+                add_book_name_new = str(input('Введите новое название книги: >  '))
+                add_book_year_new = str(input('Введите новый год издания книги: >  '))
+                if edit_book(file, add_author, add_book_name, add_book_year, add_author_new,  add_book_name_new, add_book_year_new):
+                    print('> Книга отредактирована', '\n')
+                else:
+                    print('> Книга не отредактирована', '\n')
+
+            if command == 'find':
+                search_ = str(input('Введите поисковый запрос: >  '))
+                print('Список найденных книг: >  ', search_book(file, search_), '\n')
+
+            if command == 'exit':
+                break
+        else:
+            print('Некорректный ввод.', '\nВедите комманду в соотвествии со списком команд.', '\n')
+
 
 if __name__ == '__main__':
-
-    # add_del_book("library_02.txt", "Анна Ахматова", "Реквием", "1963", 'add')
-
-    if edit_book("library_02.txt", "Анна Ахматова", "Белая стая", "1922", "Анна Ахматова", "Реквием", "1963"):
-        print('Книга отредактирована')
-    else:
-        print('Книга не отредактирована')
-
-
-    # print(search_book("library_02.txt", "аннА"))
-
-
+    main()
